@@ -18,4 +18,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [BerandaController::class, 'index']);
 Route::get('/transaksi', [TransaksiController::class, 'index']);
-Route::get('/produk', [ProdukController::class, 'index']);
+
+Route::prefix('produk')->group(function () {
+    Route::get('/', [ProdukController::class, 'index']);
+    Route::post('/insert', [ProdukController::class, 'insert']);
+    Route::get('/delete/{id}', [ProdukController::class, 'delete']);
+});
