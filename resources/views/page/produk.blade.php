@@ -58,7 +58,7 @@
                                         {{ $i->name }}
                                     </th>
                                     <td class="px-6 py-4">
-                                        <img class="w-8 rounded-2xl" src="{{ asset('img_produk/' . $i->foto_produk) }}"
+                                        <img class="w-9 rounded-2xl" src="{{ asset('img_produk/' . $i->foto_produk) }}"
                                             alt="">
                                     </td>
                                     <td class="px-6 py-4">
@@ -81,7 +81,8 @@
                                                 </svg>
                                             </div>
                                         </button>
-                                        <button onclick="location.href='/produk/delete/{{ $i->id }}'"
+                                        <button data-modal-target="modal-konfirmasi-delete{{ $i->id }}"
+                                            data-modal-toggle="modal-konfirmasi-delete{{ $i->id }}"
                                             class="font-medium text-orange-600 dark:text-orange-500">
                                             <div class="flex">
                                                 <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" id="Outline"
@@ -96,7 +97,7 @@
 
                                     </td>
                                 </tr>
-                                <x-modal id="modal-edit{{ $i->id }}" title="Create Product">
+                                <x-modal id="modal-edit{{ $i->id }}" title="Update Product : {{ $i->name }}">
                                     <form action="/produk/update/{{ $i->id }}" method="post"
                                         enctype="multipart/form-data">
                                         @csrf
@@ -139,6 +140,23 @@
                                                 class="text-white bg-orange-500 hover:bg-orange-600 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-orange-600 dark:hover:bg-orange-700 dark:focus:ring-orange-800">Create</button>
                                         </div>
                                     </form>
+                                </x-modal>
+
+
+                                {{-- modal konfirmasi hapus --}}
+                                <x-modal id="modal-konfirmasi-delete{{ $i->id }}" title="Konfirmasi Hapus">
+                                    <h1 class="text-center text-2xl font-bold mb-20 mt-20 ">Yakin anda ingin
+                                        menghapus ?
+                                        <span class="text-red-500 block">{{ $i->name }}</span>
+                                    </h1>
+                                    <div class="flex items-center justify-center space-x-4">
+                                        <button type="button"
+                                            data-modal-hide="modal-konfirmasi-delete{{ $i->id }}"
+                                            class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-orange-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Cancel</button>
+                                        <button onclick="location.href='/produk/delete/{{ $i->id }}'"
+                                            type="button"
+                                            class="text-white bg-orange-500 hover:bg-orange-600 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-orange-600 dark:hover:bg-orange-700 dark:focus:ring-orange-800">Hapus</button>
+                                    </div>
                                 </x-modal>
                             @endforeach
                         @endif

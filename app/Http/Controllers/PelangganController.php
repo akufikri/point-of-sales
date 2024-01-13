@@ -58,4 +58,33 @@ class PelangganController extends Controller
         }
         return redirect()->back();
     }
+    public function update(Request $request, $id)
+    {
+        try {
+            $request->validate([
+                'nama' => 'required|string|max:255',
+                'alamat' => 'required|string|max:500',
+                'no_telp' => 'required|numeric',
+            ], [
+                'nama.required' => 'Nama pelanggan harus diisi.',
+                'nama.string' => 'Nama pelanggan harus berupa teks.',
+                'nama.max' => 'Nama pelanggan tidak boleh lebih dari :max karakter.',
+                'alamat.required' => 'Alamat pelanggan harus diisi.',
+                'alamat.string' => 'Alamat pelanggan harus berupa teks.',
+                'alamat.max' => 'Alamat pelanggan tidak boleh lebih dari :max karakter.',
+                'no_telp.required' => 'Nomor telepon harus diisi.',
+                'no_telp.numeric' => 'Nomor telepon harus berupa angka.',
+            ]);
+
+            $pelanggan = Pelanggan::find($id);
+            $pelanggan->nama = $request->nama;
+            $pelanggan->alamat = $request->alamat;
+            $pelanggan->no_telp = $request->no_telp;
+            $pelanggan->save();
+            $this->notify->success('Sukses memperbarui pelanggan');
+        } catch (\Exception $ex) {
+            $this->notify->error('Terjadi kesalahan: ' . $ex->getMessage());
+        }
+        return redirect()->back();
+    }
 }
