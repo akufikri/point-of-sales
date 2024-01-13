@@ -58,7 +58,7 @@
                                         {{ $i->no_telp }}
                                     </td>
                                     <td class="px-6 py-4">
-                                        {{ $i->alamat }}
+                                        {{ Str::limit($i->alamat, 100, '...') }}
                                     </td>
                                     <td class="px-6 py-4 text-right flex gap-5">
                                         <button data-modal-target="modal-edit{{ $i->id }}"
@@ -74,8 +74,8 @@
                                                 </svg>
                                             </div>
                                         </button>
-                                        <button
-                                            onclick="location.href='/pengaturan-sistem/pelanggan/delete/{{ $i->id }}'"
+                                        <button data-modal-target="modal-konfirmasi-delete{{ $i->id }}"
+                                            data-modal-toggle="modal-konfirmasi-delete{{ $i->id }}"
                                             class="font-medium text-orange-600 dark:text-orange-500">
                                             <div class="flex">
                                                 <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" id="Outline"
@@ -87,9 +87,61 @@
                                                 </svg>
                                             </div>
                                         </button>
-
                                     </td>
                                 </tr>
+
+                                {{-- modal update --}}
+                                <x-modal id="modal-edit{{ $i->id }}" title="Update Pelanggan : {{ $i->nama }}">
+                                    <form action="/pengaturan-sistem/pelanggan/update/{{ $i->id }}" method="POST">
+                                        @csrf
+                                        @method('PUT')
+                                        <div class="mb-5">
+                                            <label for="text"
+                                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nama
+                                                Pelanggan</label>
+                                            <input value="{{ $i->nama }}" name="nama" type="text" id="text"
+                                                class="bg-gray-50 border transition border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-orange-500 dark:focus:border-orange-500">
+                                        </div>
+                                        <div class="mb-5">
+                                            <label for="text"
+                                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">No
+                                                Telpon</label>
+                                            <input value="{{ $i->no_telp }}" name="no_telp" type="number" id="text"
+                                                class="bg-gray-50 border transition border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-orange-500 dark:focus:border-orange-500">
+                                        </div>
+                                        <div class="mb-5">
+
+                                            <label for="alamat"
+                                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                                Alamat</label>
+                                            <textarea name="alamat" id="alamat" rows="4"
+                                                class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-orange-500 focus:border-orange-500 transition dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-orange-500 dark:focus:border-orange-500"
+                                                placeholder="Write your thoughts here...">{{ $i->alamat }}</textarea>
+                                        </div>
+                                        <div class="flex items-center justify-end space-x-4">
+                                            <button type="button" data-modal-hide="modal-edit{{ $i->id }}"
+                                                class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-orange-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Cancel</button>
+                                            <button type="submit"
+                                                class="text-white bg-orange-500 hover:bg-orange-600 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-orange-600 dark:hover:bg-orange-700 dark:focus:ring-orange-800">Update</button>
+                                        </div>
+                                    </form>
+                                </x-modal>
+
+                                {{-- modal konfirmasi hapus --}}
+                                <x-modal id="modal-konfirmasi-delete{{ $i->id }}" title="Konfirmasi Hapus">
+                                    <h1 class="text-center text-2xl font-bold mb-20 mt-20 ">Yakin anda ingin
+                                        menghapus ?
+                                        <span class="text-red-500 block">{{ $i->nama }}</span>
+                                    </h1>
+                                    <div class="flex items-center justify-center space-x-4">
+                                        <button type="button" data-modal-hide="modal-konfirmasi-delete{{ $i->id }}"
+                                            class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-orange-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Cancel</button>
+                                        <button
+                                            onclick="location.href='/pengaturan-sistem/pelanggan/delete/{{ $i->id }}'"
+                                            type="button"
+                                            class="text-white bg-orange-500 hover:bg-orange-600 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-orange-600 dark:hover:bg-orange-700 dark:focus:ring-orange-800">Hapus</button>
+                                    </div>
+                                </x-modal>
                             @endforeach
                         @endif
                     </tbody>
@@ -97,6 +149,7 @@
             </div>
         </div>
     </section>
+    {{-- modal insert --}}
     <x-modal id="modal-create" title="Create Pelanggan">
         <form action="/pengaturan-sistem/pelanggan/insert" method="POST">
             @csrf
@@ -107,7 +160,8 @@
                     class="bg-gray-50 border transition border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-orange-500 dark:focus:border-orange-500">
             </div>
             <div class="mb-5">
-                <label for="text" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">No Telpon</label>
+                <label for="text" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">No
+                    Telpon</label>
                 <input name="no_telp" type="number" id="text"
                     class="bg-gray-50 border transition border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-orange-500 dark:focus:border-orange-500">
             </div>
@@ -116,7 +170,7 @@
                 <label for="alamat" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     Alamat</label>
                 <textarea name="alamat" id="alamat" rows="4"
-                    class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-orange-500 focus:border-orange-500 transition dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-orange-500 dark:focus:border-orange-500"
                     placeholder="Write your thoughts here..."></textarea>
             </div>
             <div class="flex items-center justify-end space-x-4">
@@ -127,4 +181,5 @@
             </div>
         </form>
     </x-modal>
+
 @endsection

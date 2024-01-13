@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BerandaController;
 use App\Http\Controllers\PelangganController;
 use App\Http\Controllers\ProdukController;
@@ -17,7 +18,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// Authentikasi
+Route::get('/login', [AuthController::class, 'login_view']);
+// Authentikasi
+
 Route::get('/', [BerandaController::class, 'index']);
+
 Route::get('/transaksi', [TransaksiController::class, 'index']);
 
 Route::prefix('produk')->group(function () {
@@ -32,5 +38,6 @@ Route::prefix('pengaturan-sistem')->group(function () {
         Route::get('/', [PelangganController::class, 'index']);
         Route::post('/insert', [PelangganController::class, 'insert']);
         Route::get('/delete/{id}', [PelangganController::class, 'delete']);
+        Route::put('/update/{id}', [PelangganController::class, 'update']);
     });
 });
