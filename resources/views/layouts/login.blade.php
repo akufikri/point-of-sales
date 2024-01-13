@@ -12,22 +12,21 @@
 <body>
     <div class="flex overflow-hidden">
         <div class="w-full h-screen">
-
-
             <div class="flex justify-center items-center h-screen">
                 <div class="max-w-2xl w-full">
-                    <form class="max-w-sm mx-auto">
+                    <form class="max-w-sm mx-auto" method="POST" action="/login">
+                        @csrf
                         <div class="mb-5">
                             <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                 Email</label>
-                            <input type="email" id="email"
+                            <input name="email" type="email" id="email"
                                 class="bg-gray-50 transition border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-orange-500 dark:focus:border-orange-500"
                                 placeholder="nama_kamu@gmail.com">
                         </div>
                         <div class="mb-5">
                             <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                 Password</label>
-                            <input type="password" id="password"
+                            <input name="password" type="password" id="password"
                                 class="bg-gray-50 transition border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-orange-500 dark:focus:border-orange-500"
                                 required>
                         </div>

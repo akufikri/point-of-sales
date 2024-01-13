@@ -19,25 +19,29 @@ use Illuminate\Support\Facades\Route;
 */
 
 // Authentikasi
-Route::get('/login', [AuthController::class, 'login_view']);
+Route::get('/login', [AuthController::class, 'login_view'])->name('login');
+Route::post('/login', [AuthController::class, 'login']);
+Route::get('/logout', [AuthController::class, 'logout']);
 // Authentikasi
 
-Route::get('/', [BerandaController::class, 'index']);
+Route::middleware(['authentikasi'])->group(function () {
+    Route::get('/', [BerandaController::class, 'index']);
 
-Route::get('/transaksi', [TransaksiController::class, 'index']);
+    Route::get('/transaksi', [TransaksiController::class, 'index']);
 
-Route::prefix('produk')->group(function () {
-    Route::get('/', [ProdukController::class, 'index']);
-    Route::post('/insert', [ProdukController::class, 'insert']);
-    Route::get('/delete/{id}', [ProdukController::class, 'delete']);
-    Route::put('/update/{id}', [ProdukController::class, 'update']);
-});
+    Route::prefix('produk')->group(function () {
+        Route::get('/', [ProdukController::class, 'index']);
+        Route::post('/insert', [ProdukController::class, 'insert']);
+        Route::get('/delete/{id}', [ProdukController::class, 'delete']);
+        Route::put('/update/{id}', [ProdukController::class, 'update']);
+    });
 
-Route::prefix('pengaturan-sistem')->group(function () {
-    Route::prefix('pelanggan')->group(function () {
-        Route::get('/', [PelangganController::class, 'index']);
-        Route::post('/insert', [PelangganController::class, 'insert']);
-        Route::get('/delete/{id}', [PelangganController::class, 'delete']);
-        Route::put('/update/{id}', [PelangganController::class, 'update']);
+    Route::prefix('pengaturan-sistem')->group(function () {
+        Route::prefix('pelanggan')->group(function () {
+            Route::get('/', [PelangganController::class, 'index']);
+            Route::post('/insert', [PelangganController::class, 'insert']);
+            Route::get('/delete/{id}', [PelangganController::class, 'delete']);
+            Route::put('/update/{id}', [PelangganController::class, 'update']);
+        });
     });
 });

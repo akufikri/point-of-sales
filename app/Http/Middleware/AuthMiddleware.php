@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 class AuthMiddleware
@@ -15,6 +16,12 @@ class AuthMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        return $next($request);
+        if (Auth::check()) {
+            // User is authenticated, proceed with the request
+            return $next($request);
+        }
+
+        // User is not authenticated, redirect to login page or perform other actions
+        return redirect('/login')->with('error', 'Unauthorized access. Please log in.');
     }
 }
