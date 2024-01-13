@@ -11,7 +11,7 @@
             <div class="mb-3">
                 <div class="flex justify-between">
                     <div>
-                        <button type="button" data-modal-target="static-modal" data-modal-toggle="static-modal"
+                        <button type="button" data-modal-target="modal-create" data-modal-toggle="modal-create"
                             class="bg-lime-600 text-yellow-50 px-7 text-base py-2 font-medium shadow-md hover:scale-105 hover:bg-lime-700 transition rounded-xl">Create</button>
                     </div>
                     <div>
@@ -68,7 +68,9 @@
                                         {{ $i->stok }}
                                     </td>
                                     <td class="px-6 py-4 text-right flex gap-5">
-                                        <button class="font-medium text-orange-600 dark:text-orange-500">
+                                        <button data-modal-target="modal-edit{{ $i->id }}"
+                                            data-modal-toggle="modal-edit{{ $i->id }}"
+                                            class="font-medium text-orange-600 dark:text-orange-500">
                                             <div class="flex">
                                                 <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" id="Outline"
                                                     viewBox="0 0 24 24" width="512" height="512">
@@ -94,16 +96,58 @@
 
                                     </td>
                                 </tr>
+                                <x-modal id="modal-edit{{ $i->id }}" title="Create Product">
+                                    <form action="/produk/update/{{ $i->id }}" method="post"
+                                        enctype="multipart/form-data">
+                                        @csrf
+                                        @method('PUT')
+                                        <div class="mb-5">
+                                            <label for="text"
+                                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Nama
+                                                Produk</label>
+                                            <input value="{{ $i->name }}" name="name" type="text" id="text"
+                                                class="bg-gray-50 border transition border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-orange-500 dark:focus:border-orange-500">
+                                        </div>
+                                        <div class="mb-5">
+                                            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                                for="file_input">Gambar
+                                                Produk</label>
+                                            <input
+                                                class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                                                id="file_input" type="file" value="{{ $i->foto_produk }}"
+                                                name="foto_produk">
+                                        </div>
+                                        <div class="mb-5">
+                                            <label for="text"
+                                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Harga
+                                                (Rp)
+                                            </label>
+                                            <input value="{{ $i->harga }}" name="harga" type="text" id="text"
+                                                class="bg-gray-50 transition border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-orange-500 dark:focus:border-orange-500">
+                                        </div>
+                                        <div class="mb-5">
+                                            <label for="text"
+                                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Stok
+                                                Barang</label>
+                                            <input value="{{ $i->stok }}" name="stok" type="text" id="text"
+                                                class="bg-gray-50 transition border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-orange-500 dark:focus:border-orange-500">
+                                        </div>
+                                        <div class="flex items-center justify-end space-x-4">
+                                            <button type="button" data-modal-hide="modal-edit{{ $i->id }}"
+                                                class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-orange-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Cancel</button>
+                                            <button type="submit"
+                                                class="text-white bg-orange-500 hover:bg-orange-600 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-orange-600 dark:hover:bg-orange-700 dark:focus:ring-orange-800">Create</button>
+                                        </div>
+                                    </form>
+                                </x-modal>
                             @endforeach
                         @endif
-
                     </tbody>
                 </table>
             </div>
         </div>
     </section>
-
-    <x-modal id="static-modal" title="Create Product">
+    <x-modal id="modal-create" title="Create Product">
         <form action="/produk/insert" method="post" enctype="multipart/form-data">
             @csrf
             <div class="mb-5">
@@ -132,7 +176,7 @@
                     class="bg-gray-50 transition border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-orange-500 focus:border-orange-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-orange-500 dark:focus:border-orange-500">
             </div>
             <div class="flex items-center justify-end space-x-4">
-                <button type="button" data-modal-hide="static-modal"
+                <button type="button" data-modal-hide="modal-create"
                     class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-orange-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Cancel</button>
                 <button type="submit"
                     class="text-white bg-orange-500 hover:bg-orange-600 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-orange-600 dark:hover:bg-orange-700 dark:focus:ring-orange-800">Create</button>
