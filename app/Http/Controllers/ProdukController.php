@@ -25,7 +25,7 @@ class ProdukController extends Controller
                 'name' => 'required|string|max:255',
                 'foto_produk' => 'image|mimes:jpeg,png,jpg,gif|max:2048|nullable',
                 'harga' => 'required|numeric|min:0',
-                'stok' => 'required|integer|min:0'
+                'stok' => 'required|integer|min:0',
             ], [
                 'name.required' => 'Nama produk harus diisi.',
                 'name.string' => 'Nama produk harus berupa teks.',
@@ -38,13 +38,22 @@ class ProdukController extends Controller
                 'harga.min' => 'Harga tidak boleh kurang dari :min.',
                 'stok.required' => 'Stok harus diisi.',
                 'stok.integer' => 'Stok harus berupa angka bulat.',
-                'stok.min' => 'Stok tidak boleh kurang dari :min.'
+                'stok.min' => 'Stok tidak boleh kurang dari :min.',
             ]);
+
+            $randomNumber = str_pad(mt_rand(1, 9999999), 7, '0', STR_PAD_LEFT);
+            $kd_produk =  $randomNumber;
+
+            while (Produk::where('kd_produk', $kd_produk)->exists()) {
+                $randomNumber = str_pad(mt_rand(1, 9999999), 7, '0', STR_PAD_LEFT);
+                $kd_produk =  $randomNumber;
+            }
 
             $produk = new Produk();
             $produk->name = $request->name;
             $produk->harga = $request->harga;
             $produk->stok = $request->stok;
+            $produk->kd_produk = $kd_produk;
 
             if ($request->file('foto_produk')) {
                 $request->file('foto_produk')->move('img_produk/', $request->file('foto_produk')->getClientOriginalName());
@@ -60,6 +69,7 @@ class ProdukController extends Controller
 
         return redirect()->back();
     }
+
 
     public function update(Request $request, $id)
     {

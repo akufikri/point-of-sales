@@ -44,8 +44,6 @@
                 </button>
             </div>
         @endif
-
-
         @if (session('error'))
             <div id="alert-error"
                 class="flex bottom-0 w-full max-w-md right-2 shadow-lg rounded-xl absolute items-center p-4 mb-4 text-red-800 border-t-4 border-red-300 bg-red-50 dark:text-red-400 dark:bg-gray-800 dark:border-red-800"
@@ -93,7 +91,6 @@
             if (alertSukses) {
                 alertSukses.remove();
             }
-
             if (alertError) {
                 alertError.remove();
             }
