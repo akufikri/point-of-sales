@@ -13,7 +13,8 @@ class Produk extends Model
         'name',
         'foto_produk',
         'harga',
-        'stok'
+        'stok',
+        'kd_produk'
     ];
 
     protected $table = 'produks';

@@ -10,13 +10,4 @@ class TransaksiController extends Controller
     {
         return view("page.transaksi");
     }
-    public function store(Request $request)
-    {
-    }
-    public function show($id)
-    {
-    }
-    public function edit($id)
-    {
-    }
 }

@@ -20,7 +20,9 @@ use Illuminate\Support\Facades\Route;
 
 // Authentikasi
 Route::get('/login', [AuthController::class, 'login_view'])->name('login');
+
 Route::post('/login', [AuthController::class, 'login']);
+
 Route::get('/logout', [AuthController::class, 'logout']);
 // Authentikasi
 

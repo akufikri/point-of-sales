@@ -11,12 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('penjualans', function (Blueprint $table) {
-            $table->id();
-            $table->date('tanggal_penjualan');
-            $table->decimal('total_harga', 10, 2);
-            $table->unsignedBigInteger('pelanggan_id');
-            $table->timestamps();
+        Schema::table('produks', function (Blueprint $table) {
+            $table->string('kd_produk');
         });
     }
 
@@ -25,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('penjualans');
+        Schema::table('produks', function (Blueprint $table) {
+            $table->string('kd_produk');
+        });
     }
 };
