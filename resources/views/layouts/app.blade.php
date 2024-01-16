@@ -8,6 +8,8 @@
     <title>Kasir | @yield('title')</title>
     {{-- Tailwind --}}
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    @livewireStyles
+
 
 </head>
 
@@ -83,6 +85,7 @@
         @endif
 
     </div>
+    @livewireScripts
     <script>
         setTimeout(() => {
             const alertSukses = document.getElementById('alert-sukses');

@@ -13,8 +13,9 @@ class DetailPenjualan extends Model
         'produk_id',
         'total_produk',
         'subtotal',
+        'fee_admin',
     ];
-    protected $table = 'detail_penjualan';
+    protected $table = 'detail_penjualans';
     public function penjualan()
     {
         return $this->belongsTo(Penjualan::class, 'penjualan_id');
