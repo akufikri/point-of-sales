@@ -8,6 +8,7 @@ use App\Models\Penjualan;
 use App\Models\Produk;
 use Livewire\Component;
 
+
 class Transaksi extends Component
 {
     public $produk;
@@ -86,9 +87,10 @@ class Transaksi extends Component
 
         try {
             $total = $this->calculateTotal();
-            $this->saveToDatabase($total);
-            $this->resetForm();
-            session()->flash('success', 'Sukses menghitung produk');
+            $penjualan = $this->saveToDatabase($total);
+
+            // Redirect to the PDF generation route
+            return redirect()->route('generate.pdf', ['id' => $penjualan->id]);
         } catch (\Exception $ex) {
             $this->addError('error', 'Terjadi kesalahan: ' . $ex->getMessage());
             session()->flash('error', 'Gagal menghitung produk');
@@ -100,26 +102,49 @@ class Transaksi extends Component
         $pelangganId = $this->selectedPelangganId;
 
         if ($pelangganId !== null) {
-            $penjualan = Penjualan::create([
-                'tanggal_penjualan' => now(),
-                'total_harga' => $total,
-                'pelanggan_id' => $pelangganId,
-            ]);
+            try {
+                \DB::beginTransaction();
 
-            foreach ($this->selectedProduk as $item) {
-                DetailPenjualan::create([
-                    'penjualan_id' => $penjualan->id,
-                    'produk_id' => $item['product']->id,
-                    'total_produk' => $item['quantity'],
-                    'subtotal' => $item['product']->harga * $item['quantity'],
-                    'fee_admin' => $this->feeAdmin,
+                $penjualan = Penjualan::create([
+                    'tanggal_penjualan' => now(),
+                    'total_harga' => $total,
+                    'pelanggan_id' => $pelangganId,
                 ]);
+
+                foreach ($this->selectedProduk as $item) {
+                    $product = $item['product'];
+
+                    DetailPenjualan::create([
+                        'penjualan_id' => $penjualan->id,
+                        'produk_id' => $product->id,
+                        'total_produk' => $item['quantity'],
+                        'subtotal' => $product->harga * $item['quantity'],
+                        'fee_admin' => $this->feeAdmin,
+                    ]);
+
+                    // Update the stock of the product
+                    $product->decrement('stok', $item['quantity']);
+                }
+
+                $this->dispatch('updateTotal', $total, $penjualan->id);
+
+                \DB::commit();
+
+                $this->resetForm();
+                session()->flash('success', 'Sukses menghitung produk');
+
+                return $penjualan; // Return the created Penjualan instance
+            } catch (\Exception $ex) {
+                \DB::rollBack();
+
+                $this->addError('error', 'Terjadi kesalahan: ' . $ex->getMessage());
+                session()->flash('error', 'Gagal menghitung produk');
             }
-            $this->dispatch('updateTotal', $total, $penjualan->id);
         } else {
             $this->addError('selectedPelangganId', 'Harap pilih pelanggan.');
         }
     }
+
 
     private function resetForm()
     {

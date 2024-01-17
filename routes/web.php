@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BerandaController;
+use App\Http\Controllers\PdfController;
 use App\Http\Controllers\PelangganController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\TransaksiController;
@@ -17,6 +18,9 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+
+// print
+Route::get('/print/{id}', [PdfController::class, 'generatePdf'])->name('generate.pdf');
 
 // Authentikasi
 Route::get('/login', [AuthController::class, 'login_view'])->name('login');
