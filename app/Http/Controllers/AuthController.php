@@ -21,10 +21,23 @@ class AuthController extends Controller
         $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)) {
-            return redirect('/');
+            $user = Auth::user();
+
+            switch ($user->role_id) {
+                case 1:
+                    return redirect('/');
+                case 2:
+                    return redirect('/transaksi');
+                    // Add more cases for other roles if needed
+                default:
+                    // Redirect to a default route for unknown roles
+                    return redirect('/')->with('error', 'Unauthorized access. Please log in.');
+            }
         }
+
         return redirect('/login')->with('error', 'Invalid credentials. Please try again.');
     }
+
     public function logout()
     {
         Auth::logout();

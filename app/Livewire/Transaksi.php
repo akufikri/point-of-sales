@@ -8,7 +8,6 @@ use App\Models\Penjualan;
 use App\Models\Produk;
 use Livewire\Component;
 
-
 class Transaksi extends Component
 {
     public $produk;
@@ -22,6 +21,7 @@ class Transaksi extends Component
         'selectedProduk.*.quantity' => 'required|integer|min:1',
         'feeAdmin' => 'required|numeric|min:10',
     ];
+
     public function mount()
     {
         $this->selectedProduk = [];
@@ -32,20 +32,21 @@ class Transaksi extends Component
 
     public function selectProduk($productId)
     {
-        $existingIndex = collect($this->selectedProduk)->search(function ($item) use ($productId) {
-            return $item['product']->id == $productId;
-        });
-
-        if ($existingIndex !== false) {
-            $this->addError('selectedProduk', 'Produk sudah ada dalam daftar.');
-        } else {
+        if (!$this->isProductSelected($productId)) {
             $selectedProduct = Produk::find($productId);
 
             $this->selectedProduk[] = [
                 'product' => $selectedProduct,
                 'quantity' => 1,
             ];
+        } else {
+            $this->addError('selectedProduk', 'Produk sudah ada dalam daftar.');
         }
+    }
+
+    private function isProductSelected($productId)
+    {
+        return collect($this->selectedProduk)->contains('product.id', $productId);
     }
 
     public function updateQuantity($index, $quantity)
@@ -70,11 +71,9 @@ class Transaksi extends Component
         $subtotal = collect($this->selectedProduk)->sum(function ($item) {
             return $item['product']->harga * $item['quantity'];
         });
-        $total = $subtotal + $this->feeAdmin * $this->qty;
 
-        return $total;
+        return $subtotal + $this->feeAdmin * $this->qty;
     }
-
 
     public function updated($propertyName)
     {
@@ -89,7 +88,6 @@ class Transaksi extends Component
             $total = $this->calculateTotal();
             $penjualan = $this->saveToDatabase($total);
 
-            // Redirect to the PDF generation route
             return redirect()->route('generate.pdf', ['id' => $penjualan->id]);
         } catch (\Exception $ex) {
             $this->addError('error', 'Terjadi kesalahan: ' . $ex->getMessage());
@@ -122,7 +120,6 @@ class Transaksi extends Component
                         'fee_admin' => $this->feeAdmin,
                     ]);
 
-                    // Update the stock of the product
                     $product->decrement('stok', $item['quantity']);
                 }
 
@@ -133,7 +130,7 @@ class Transaksi extends Component
                 $this->resetForm();
                 session()->flash('success', 'Sukses menghitung produk');
 
-                return $penjualan; // Return the created Penjualan instance
+                return $penjualan;
             } catch (\Exception $ex) {
                 \DB::rollBack();
 
@@ -144,7 +141,6 @@ class Transaksi extends Component
             $this->addError('selectedPelangganId', 'Harap pilih pelanggan.');
         }
     }
-
 
     private function resetForm()
     {
