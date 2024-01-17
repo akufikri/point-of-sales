@@ -9,14 +9,25 @@
     {{-- Tailwind --}}
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
+    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.5.1/css/all.css">
 
+    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.5.1/css/sharp-thin.css">
 
+    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.5.1/css/sharp-solid.css">
+
+    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.5.1/css/sharp-regular.css">
+
+    <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.5.1/css/sharp-light.css">
+
+    <link rel="stylesheet" href="{{ asset('assets/css/app.css') }}">
+
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 </head>
 
 <body>
     <x-navbar />
     <x-sidebar />
-    <div class="p-4 sm:ml-64 bg-[#F7F7F8] h-screen pt-20">
+    <div class="p-4 sm:ml-64 pt-20">
         <h1 class="font-medium text-2xl mb-5 mt-4">
             @yield('header')
         </h1>
@@ -86,16 +97,8 @@
 
     </div>
     @livewireScripts
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var toggleButton = document.querySelector('[data-collapse-toggle="dropdown-example"]');
-            var submenu = document.getElementById('dropdown-example');
 
-            toggleButton.addEventListener('click', function() {
-                submenu.classList.toggle('hidden');
-            });
-        });
-    </script>
+
     <script>
         setTimeout(() => {
             const alertSukses = document.getElementById('alert-sukses');
