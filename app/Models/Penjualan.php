@@ -16,11 +16,16 @@ class Penjualan extends Model
     ];
     protected $table = 'penjualans';
 
-    public function pelangga()
+    public function pelanggan()
     {
         return $this->belongsTo(Pelanggan::class, 'pelanggan_id');
     }
     public function detail_penjualan()
+    {
+        return $this->hasMany(DetailPenjualan::class);
+    }
+
+    public function details()
     {
         return $this->hasMany(DetailPenjualan::class);
     }

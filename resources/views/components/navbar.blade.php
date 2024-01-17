@@ -20,7 +20,7 @@
                              class="self-center text-xl font-semibold sm:text-xl whitespace-nowrap dark:text-white">Garuda
                              Kasir</span>
                          <span
-                             class="self-center text-sm font-light sm:text-xs whitespace-nowrap text-gray-500">Transformasi
+                             class="self-center sm:block hidden text-sm font-light sm:text-xs whitespace-nowrap text-gray-500">Transformasi
                              Kasirmu Bersama Kami!</span>
                      </div>
                  </a>
