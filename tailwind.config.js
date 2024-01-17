@@ -10,7 +10,10 @@ export default {
         extend: {},
     },
     plugins: [
-        require('flowbite/plugin')
+        require('flowbite/plugin')({
+            charts: true,
+        }),
+
     ],
 }
 
