@@ -87,6 +87,16 @@
     </div>
     @livewireScripts
     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var toggleButton = document.querySelector('[data-collapse-toggle="dropdown-example"]');
+            var submenu = document.getElementById('dropdown-example');
+
+            toggleButton.addEventListener('click', function() {
+                submenu.classList.toggle('hidden');
+            });
+        });
+    </script>
+    <script>
         setTimeout(() => {
             const alertSukses = document.getElementById('alert-sukses');
             const alertError = document.getElementById('alert-error');
