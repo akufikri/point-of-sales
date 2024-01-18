@@ -85,7 +85,7 @@
                     <ul id="dropdown-example" class="hidden py-2 space-y-2">
                         <li>
                             <a href="/pengaturan-sistem/pelanggan"
-                                class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Pelanggan</a>
+                                class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 @if (request()->is('pengaturan-sistem/pelanggan')) bg-gray-200 @endif">Pelanggan</a>
                         </li>
                         <li>
                             <a href="#"
@@ -94,7 +94,7 @@
                         </li>
                         <li>
                             <a href="/pengaturan-sistem/pegawai"
-                                class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700">Pegawai</a>
+                                class="flex items-center w-full p-2 text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100 dark:text-white dark:hover:bg-gray-700 @if (request()->is('pengaturan-sistem/pegawai')) bg-gray-200 @endif">Pegawai</a>
                         </li>
                     </ul>
                 </li>
@@ -102,3 +102,23 @@
         </ul>
     </div>
 </aside>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const sidebarButton = document.querySelector('[data-collapse-toggle="dropdown-example"]');
+        const dropdownMenu = document.getElementById('dropdown-example');
+
+        sidebarButton.addEventListener('click', function() {
+            dropdownMenu.classList.toggle('hidden');
+        });
+
+        // Tambahkan kode untuk mengecek apakah halaman saat ini adalah halaman dropdown
+        const isDropdownActive = Array.from(dropdownMenu.getElementsByTagName('a')).some(a => {
+            return a.classList.contains('bg-gray-200') || a.classList.contains('dark:bg-gray-700');
+        });
+
+        // Buka dropdown jika halaman dropdown aktif
+        if (isDropdownActive) {
+            dropdownMenu.classList.remove('hidden');
+        }
+    });
+</script>
