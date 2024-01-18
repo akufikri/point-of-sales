@@ -52,6 +52,7 @@ Route::middleware(['authentikasi'])->group(function () {
         });
         Route::prefix('pegawai')->group(function () {
             Route::get('/', [PegawaiController::class, 'index']);
+            Route::post('/insert', [PegawaiController::class, 'store']);
         });
     });
 });
