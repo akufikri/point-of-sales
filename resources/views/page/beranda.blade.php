@@ -26,7 +26,7 @@
                 <div class="mt-10">
                     <h5 class="font-bold text-2xl text-gray-800">Produk</h5>
                     <div class="font-bold mt-2">
-                        <span class="font-medium">50</span> Produk
+                        <span class="font-medium">{{ $produk }}</span> Produk
                     </div>
                 </div>
             </div>
@@ -37,7 +37,7 @@
                 <div class="mt-10">
                     <h5 class="font-bold text-2xl text-gray-800">Pegawai</h5>
                     <div class="font-bold mt-2">
-                        <span class="font-medium">5</span> Orang
+                        <span class="font-medium">{{ $pegawai }}</span> Orang
                     </div>
                 </div>
             </div>

@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BerandaController;
 use App\Http\Controllers\PdfController;
+use App\Http\Controllers\PegawaiController;
 use App\Http\Controllers\PelangganController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\TransaksiController;
@@ -48,6 +49,9 @@ Route::middleware(['authentikasi'])->group(function () {
             Route::post('/insert', [PelangganController::class, 'insert']);
             Route::get('/delete/{id}', [PelangganController::class, 'delete']);
             Route::put('/update/{id}', [PelangganController::class, 'update']);
+        });
+        Route::prefix('pegawai')->group(function () {
+            Route::get('/', [PegawaiController::class, 'index']);
         });
     });
 });
