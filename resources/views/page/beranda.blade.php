@@ -48,7 +48,7 @@
                 <div class="mt-10">
                     <h5 class="font-bold text-2xl text-gray-800">Penjualan</h5>
                     <div class="font-bold mt-2">
-                        <span class="font-medium">5</span> X
+                        <span class="font-medium">{{ $penjualan }}</span> X
                     </div>
                 </div>
             </div>
@@ -117,7 +117,7 @@
                             </ul>
                         </div>
                         <a href="#"
-                            class="uppercase text-sm font-semibold inline-flex items-center rounded-lg text-blue-600 hover:text-blue-700 dark:hover:text-blue-500  hover:bg-gray-100 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 px-3 py-2">
+                            class="uppercase text-sm font-semibold inline-flex items-center rounded-lg text-gray-600 hover:text-gray-700 dark:hover:text-gray-500  hover:bg-gray-100 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 px-3 py-2">
                             Users Report
                             <svg class="w-2.5 h-2.5 ms-1.5 rtl:rotate-180" aria-hidden="true"
                                 xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
@@ -181,7 +181,7 @@
                 series: [{
                     name: "New users",
                     data: [6500, 6418, 6456, 6526, 6356, 6456, 6500, 6905],
-                    color: "#1A56DB",
+                    color: "#1F2937",
                 }, ],
                 xaxis: {
                     categories: ['01 February', '02 February', '03 February', '04 February', '05 February',
